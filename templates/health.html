@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block content %}
+<div class="row h-100 justify-content-center">
+  <div class="col-8 mt-5">
+    <h1 class="text-center mb-5">Elasticsearch System Info</h1>
+    {% if error_msg %}
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">Failed to fetch system info</h4>
+      <p>{{error_msg}}</p>
+    </div>
+    {% else %}
+    <pre class="bg-dark text-white p-4 rounded">{{info_str}}</pre>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+<div class="row h-100 justify-content-center align-items-center">
+  <div class="col-6">
+    <form method="post" action="{% url 'signup' %}">
+      {% csrf_token %}
+
+      <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+      <div class="form-floating mb-3">
+        <input name="username" class="form-control" id="username" />
+        <label for="username">Username</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          name="password1"
+          class="form-control"
+          id="password1"
+        />
+        <label for="password1">Password</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          name="password2"
+          class="form-control"
+          id="password2"
+        />
+        <label for="password2">Confirm Password</label>
+      </div>
+
+      <button class="w-100 btn btn-md btn-primary mb-4" type="submit">
+        Sign up
+      </button>
+
+      {% if form.errors %}
+      <div class="alert alert-danger" role="alert">{{form.errors}}</div>
+      {% endif %}
+    </form>
+  </div>
+</div>
+{% endblock %}

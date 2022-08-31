@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+<div class="row h-100 justify-content-center">
+  <div class="col-8 mt-5">
+    <h1 class="text-center mb-5">User history</h1>
+
+    {% if not queries %}
+    <p class="p-4">No queries in database for {{ user.username }}</p>
+    {% endif %} {% for query in queries %}
+    <p>{{query.search}} Date: {{query.timestamp}}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

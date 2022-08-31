@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% block content %}
+<div class="row">
+  <div class="col-8 mt-5 mb-2">
+    <form method="get" action="{% url 'search' %}">
+      <div class="input-group">
+        <input
+          type="text"
+          name="query"
+          id="query"
+          class="form-control"
+          placeholder="Enter some keywords..."
+          aria-label="Search keywords"
+          aria-describedby="button-search"
+        />
+        <input type="hidden" name="page" value="1" />
+        <button class="btn btn-primary" type="submit">Search</button>
+      </div>
+    </form>
+    <p class="mt-3">Found {{count}} results in {{time}} second(s)</p>
+  </div>
+
+  <div class="col-12 mb-1">
+    <ul class="pagination">
+      <li class="page-item {% if previous is None %}disabled{% endif %}">
+        <a class="page-link" href="{{previous}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% for pageObj in pagination %}
+      <li class="page-item {% if current == pageObj.page %}active{% endif %}"><a class="page-link" href="{{pageObj.url}}">{{pageObj.page}}</a></li>
+      {% endfor %}
+      <li class="page-item {% if next is None %}disabled{% endif %}">
+        <a class="page-link" href="{{next}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-12 mb-5">
+    {% for doc in results %}
+    <div class="card mb-3">
+      <div class="card-header">
+        <span>{{doc.id}}. {{doc.title}}<span>
+        <a class="float-end ms-2" target="_blank" href="https://en.wikiquote.org/wiki/{{doc.title}}">link</a>
+        <span class="float-end">{{doc.score}}</span>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{doc.summary}}</p>
+      </div>
+      <div class="card-footer text-nowrap overflow-auto">
+        {% for cat in doc.category %}
+        <span class="badge bg-secondary">{{cat}}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+  <script>
+    function loadQueryfromUrl() {
+      const params = new URLSearchParams(location.search);
+      const query = params.get("query");
+      if (typeof query === "string") {
+        document.getElementById("query").value = query;
+      }
+    }
+
+    loadQueryfromUrl();
+  </script>
+</div>
+{% endblock %}
